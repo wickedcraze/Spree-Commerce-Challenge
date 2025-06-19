@@ -1,0 +1,23 @@
+// package.json
+{
+  "name": "spree-commerce-playwright-tests",
+  "version": "1.0.0",
+  "description": "Playwright test automation framework for Spree Commerce demo store",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "install:browsers": "playwright install"
+  },
+  "keywords": ["playwright", "testing", "e2e", "spree-commerce"],
+  "author": "Test Automation Engineer",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
