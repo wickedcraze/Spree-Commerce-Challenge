@@ -1,0 +1,49 @@
+# .gitlab-ci.yml
+stages:
+  - test
+  - report
+
+variables:
+  NODE_VERSION: "18"
+
+before_script:
+  - apt-get update -qy
+  - apt-get install -y nodejs npm
+
+test:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.40.0-focal
+  
+  parallel:
+    matrix:
+      - BROWSER: chromium
+      - BROWSER: firefox
+      - BROWSER: webkit
+  
+  script:
+    - npm ci
+    - npx playwright test --project=$BROWSER
+  
+  artifacts:
+    when: always
+    reports:
+      junit: test-results/junit.xml
+    paths:
+      - playwright-report/
+      - test-results/
+    expire_in: 1 week
+  
+  retry: 1
+
+pages:
+  stage: report
+  dependencies:
+    - test
+  script:
+    - mkdir public
+    - cp -r playwright-report/* public/ 2>/dev/null || echo "No playwright report found"
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
